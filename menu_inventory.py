@@ -1,3 +1,4 @@
+import storage
 import utils
 
 def get_menu_option_inventory() -> str: 
@@ -15,7 +16,7 @@ def inventory_menu() :
     while True:
         match get_menu_option_inventory():
             case "A":
-                pass
+                print_storage()
             case "B":
                 pass
             case "C":
@@ -28,3 +29,14 @@ def inventory_menu() :
             case _:
                 # unknow
                 print("unknow option, please try again")
+
+def print_storage():
+    table = []
+    for item in storage.STORAGE.products:
+        table.append(item.to_list())
+
+    utils.clear_console()
+    utils.print_table(table)
+    print("To update an item, enter the item code. Or enter 0 to go back to previous menu.")
+    input()
+    # TODO: wip
