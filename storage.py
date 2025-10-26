@@ -1,9 +1,12 @@
 
 import json
+import os
 from models.addon import Addon
 from products import Categories, Product
 
-storage_path = "./storage/"
+storage_path = "./storage"
+products_storage_path = os.path.join(storage_path, "products.json")
+addons_storage_path = os.path.join(storage_path, "addons.json")
 
 class Storage:
     products: list[Product]
@@ -66,7 +69,7 @@ class Storage:
 STORAGE = Storage()
 
 def read_products() -> list[Product]:
-    with open(storage_path+"products.json", "r") as file:
+    with open(products_storage_path, "r") as file:
         data = json.load(file)
         
     products: list[Product] = []
@@ -76,7 +79,7 @@ def read_products() -> list[Product]:
     return products
 
 def read_addons() -> list[Addon]:
-    with open(storage_path+"addons.json", "r") as file:
+    with open(addons_storage_path, "r") as file:
         data = json.load(file)
         
     addons: list[Addon] = []
@@ -87,7 +90,7 @@ def read_addons() -> list[Addon]:
     return addons
 
 def save_products_to_file(products: list[Product]) :
-    with open(storage_path+"products.json", "w") as file:
+    with open(products_storage_path, "w") as file:
         dict_list: list[dict] = []
         for product in products:
             dict_list.append(product.to_dict())
@@ -95,9 +98,21 @@ def save_products_to_file(products: list[Product]) :
         json.dump(dict_list, file, indent=4)
 
 def save_addons_to_file(addons: list[Addon]):
-    with open(storage_path+"addons.json", "w") as file:
+    with open(addons_storage_path, "w") as file:
         dict_list: list[dict] = []
         for addon in addons:
             dict_list.append(addon.to_dict())
 
         json.dump(dict_list, file, indent=4)
+
+def check_storage_file(path):
+    if not os.path.exists(path):
+        os.makedirs(storage_path, exist_ok=True)
+        
+        initial_data = []
+        try:
+            with open(path, 'w') as file:
+                json.dump(initial_data, file, indent=4)
+
+        except:
+            pass
