@@ -2,7 +2,7 @@ from products import Categories, Product
 import storage
 import utils
 
-
+# create new product
 def add_new_blooms():
     utils.clear_console()
     print("---- Create new blooms ----")
@@ -17,10 +17,15 @@ def add_new_blooms():
 
 def get_product_code() -> str:
     while True:
-        code = input("Enter product code: ")
+        code = input("Enter product code, or blank to generate one: ")
         if code == "":
-            # TODO: auto generate
-            continue
+            # if auto generate
+            while True:
+                code = utils.generate_random_id()
+                if code not in storage.STORAGE.id_cache:
+                    return code
+
+        # check collision
         if code in storage.STORAGE.id_cache:
             print("the code is already been used, please try another one")
             continue

@@ -1,4 +1,6 @@
 import os
+import secrets
+import string
 
 # clear console
 def clear_console():
@@ -25,3 +27,12 @@ def print_table(data):
         for c in row:
             content.append(str(c))
         print(row_template.format(*content))
+
+def generate_random_id(length: int) -> str:
+    # caracter set
+    characters = string.ascii_uppercase + string.digits
+    
+    # get some random number
+    for _ in range(length):
+        random_id = ''.join(secrets.choice(characters) )
+    return random_id
