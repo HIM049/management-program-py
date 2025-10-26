@@ -1,4 +1,4 @@
-from inventory import add_new_blooms, view_and_update
+from inventory import add_new_addons, add_new_blooms, view_and_update
 import utils
 
 def get_menu_option_inventory() -> str: 
@@ -22,7 +22,7 @@ def inventory_menu() :
             case "C":
                 pass
             case "D":
-                pass
+                add_new_addons.add_new_addons()
             case "E":
                 # back to main
                 break

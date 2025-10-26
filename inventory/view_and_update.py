@@ -18,7 +18,7 @@ def view_and_update():
         # go back
         return
     
-    item_index = storage.STORAGE.id_cache.get(id)
+    item_index = storage.STORAGE.products_id_cache.get(id)
     if item_index == None:
         # item not found
         print("product id not found")
@@ -49,4 +49,4 @@ def ask_update_item(item_index: int, product: Product):
             # skip
             print("skipped, the avilable status won't change")
 
-    storage.STORAGE.update(item_index, product)
+    storage.STORAGE.update_product(item_index, product)

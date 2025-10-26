@@ -13,7 +13,7 @@ def add_new_blooms():
     category = get_category()
 
     # create a new item
-    storage.STORAGE.append(Product(code, name, category, price, True))
+    storage.STORAGE.append_product(Product(code, name, category, price, True))
 
 def get_product_code() -> str:
     while True:
@@ -21,12 +21,12 @@ def get_product_code() -> str:
         if code == "":
             # if auto generate
             while True:
-                code = utils.generate_random_id()
-                if code not in storage.STORAGE.id_cache:
+                code = utils.generate_random_id(4)
+                if code not in storage.STORAGE.products_id_cache:
                     return code
 
         # check collision
-        if code in storage.STORAGE.id_cache:
+        if code in storage.STORAGE.products_id_cache:
             print("the code is already been used, please try another one")
             continue
         return code
