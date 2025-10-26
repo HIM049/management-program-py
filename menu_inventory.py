@@ -46,18 +46,13 @@ def view_and_update():
         # go back
         return
     
-    try:
-        item_index = storage.STORAGE.id_cache[id]
-        ask_update_item(item_index, storage.STORAGE.products[item_index])
-    except KeyError:
+    item_index = storage.STORAGE.id_cache.get(id)
+    if item_index == None:
         # item not found
         print("product id not found")
-        time.sleep(3)
+        time.sleep(2)
         return
-    except Exception as e:
-        print(f"failed to search inventory: {e}")
-        time.sleep(3)
-        return
+    ask_update_item(item_index, storage.STORAGE.products[item_index])
     
 def ask_update_item(item_index: int, product: Product):
     utils.clear_console()
