@@ -1,3 +1,5 @@
+import time
+from products import Product
 import storage
 import utils
 
@@ -16,7 +18,7 @@ def inventory_menu() :
     while True:
         match get_menu_option_inventory():
             case "A":
-                print_storage()
+                view_and_update()
             case "B":
                 pass
             case "C":
@@ -30,13 +32,56 @@ def inventory_menu() :
                 # unknow
                 print("unknow option, please try again")
 
-def print_storage():
+def view_and_update():
     table = []
     for item in storage.STORAGE.products:
         table.append(item.to_list())
 
+    # print inventory table
     utils.clear_console()
     utils.print_table(table)
-    print("To update an item, enter the item code. Or enter 0 to go back to previous menu.")
-    input()
-    # TODO: wip
+
+    id = input("To update an item, enter the item code. Or enter 0 to go back to previous menu: ")
+    if id == "0":
+        # go back
+        return
+    
+    try:
+        item_index = storage.STORAGE.id_cache[id]
+        ask_update_item(item_index, storage.STORAGE.products[item_index])
+    except KeyError:
+        # item not found
+        print("product id not found")
+        time.sleep(3)
+        return
+    except Exception as e:
+        print(f"failed to search inventory: {e}")
+        time.sleep(3)
+        return
+    
+def ask_update_item(item_index: int, product: Product):
+    utils.clear_console()
+    utils.print_table([product.to_list()])
+
+    # not sure which number to skip, need discuss
+    data = input("Enter new price to update, or 0 to skip: ")
+    try:
+        num = int(data)
+        if num != 0:
+            product.price = num
+    except ValueError:
+        print("invalid value, skipped update")
+
+    data = input("Enter T/F to update status, or anything to skip: ").upper()
+    match data:
+        case "T":
+            product.available = True
+        case "F":
+            product.available = False
+        case _:
+            # skip
+            print("skipped, the avilable status won't change")
+
+    storage.STORAGE.update(item_index, product)
+        
+

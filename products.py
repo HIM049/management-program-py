@@ -35,7 +35,7 @@ class Product:
         }
     
     @classmethod
-    def from_dict(cls, d: dict) -> product:
+    def from_dict(cls, d: dict):
         try: 
             return cls(
                 d["item_code"],
