@@ -27,3 +27,6 @@ class Addon:
             "price": self.price,
             "available": self.available
         }
+    
+    def to_list(self) -> list[str]:
+        return [self.item_code, self.item_name, self.price, self.available]

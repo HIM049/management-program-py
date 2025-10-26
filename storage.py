@@ -60,7 +60,6 @@ class Storage:
 
         self.addons_id_cache = {}
         for i, addon in enumerate(self.addons):
-            print(type(addon))
             self.addons_id_cache[addon.item_code] = i
 
 # Global object
