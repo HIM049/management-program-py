@@ -1,4 +1,4 @@
-import menu_inventory
+import menus.menu_inventory as menu_inventory
 import utils
 
 

@@ -1,4 +1,4 @@
-import menu_main
+import menus.menu_main as menu_main
 import storage
 
 # initialize storage
