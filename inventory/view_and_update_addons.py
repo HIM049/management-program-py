@@ -51,4 +51,4 @@ def ask_update_item(item_index: int, addon: Addon):
             # skip
             print("skipped, the avilable status won't change")
 
-    storage.STORAGE.update_product(item_index, addon)
+    storage.STORAGE.update_addon(item_index, addon)
