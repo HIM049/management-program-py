@@ -1,4 +1,4 @@
-from products import Categories, Product
+from models.products import Categories, Product
 import storage
 import utils
 
@@ -9,7 +9,7 @@ def add_new_blooms():
 
     name = input("Enter product name: ")
     code = get_product_code()
-    price = input("Enter product price: ")
+    price = int(input("Enter product price: "))
     category = get_category()
 
     # create a new item

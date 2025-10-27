@@ -11,7 +11,7 @@ def clear_console():
         os.system('clear')
 
 # print a table with 5 lines
-def print_table_blooms(data):
+def print_table_blooms(data: list[list[str]]):
     # the frame for lines
     row_template = "{:<18}{:<18}{:<18}{:<18}{:<18}"
 
@@ -23,13 +23,13 @@ def print_table_blooms(data):
     print("-" * (len(header) * 18))
     
     for row in data:
-        content = [] 
+        content: list[str] = [] 
         for c in row:
             content.append(str(c))
         print(row_template.format(*content))
 
 # print a table with 4 lines
-def print_table_addons(data):
+def print_table_addons(data: list[list[str]]):
     # the frame for lines
     row_template = "{:<18}{:<18}{:<18}{:<18}"
 
@@ -41,7 +41,7 @@ def print_table_addons(data):
     print("-" * (len(header) * 18))
     
     for row in data:
-        content = [] 
+        content: list[str] = [] 
         for c in row:
             content.append(str(c))
         print(row_template.format(*content))

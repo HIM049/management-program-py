@@ -1,5 +1,5 @@
 from enum import Enum
-from itertools import product
+from typing import Any
 
 
 class Categories(Enum):
@@ -25,7 +25,7 @@ class Product:
         self.available = available
 
     # transfer to dict
-    def to_dict(self) -> dict[str, any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "item_code": self.item_code,
             "item_name": self.item_name,
@@ -35,17 +35,14 @@ class Product:
         }
     
     @classmethod
-    def from_dict(cls, d: dict):
-        try: 
-            return cls(
-                d["item_code"],
-                d["item_name"],
-                Categories(d["category"]),
-                d["price"],
-                d["available"],
-            )
-        except:
-            print("error: failed to deserialization")
+    def from_dict(cls, d: dict[str, Any]):
+        return cls(
+            d["item_code"],
+            d["item_name"],
+            Categories(d["category"]),
+            d["price"],
+            d["available"],
+        )
 
     def to_list(self) -> list[str]:
-        return [self.item_code, self.item_name, self.category.name, self.price, self.available]
+        return [self.item_code, self.item_name, self.category.name, str(self.price), str(self.available)]

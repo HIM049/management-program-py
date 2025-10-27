@@ -1,13 +1,12 @@
 
 import time
 from models.addon import Addon
-from products import Product
 import storage
 import utils
 
 
 def view_and_update_addons():
-    table = []
+    table: list[list[str]] = []
     for item in storage.STORAGE.addons:
         table.append(item.to_list())
 

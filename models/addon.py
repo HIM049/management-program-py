@@ -1,4 +1,7 @@
 
+from typing import Any
+
+
 class Addon:
     item_code: str
     item_name: str
@@ -12,7 +15,7 @@ class Addon:
         self.available = available
 
     @classmethod
-    def from_dict(cls, d: dict):
+    def from_dict(cls, d: dict[str, Any]):
         return cls(
             d["item_code"], 
             d["item_name"],
@@ -24,9 +27,9 @@ class Addon:
         return {
             "item_code": self.item_code,
             "item_name": self.item_name,
-            "price": self.price,
-            "available": self.available
+            "price": str(self.price),
+            "available": str(self.available)
         }
     
     def to_list(self) -> list[str]:
-        return [self.item_code, self.item_name, self.price, self.available]
+        return [self.item_code, self.item_name, str(self.price), str(self.available)]

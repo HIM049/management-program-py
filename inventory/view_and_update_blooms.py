@@ -1,11 +1,11 @@
 import time
-from products import Product
+from models.products import Product
 import storage
 import utils
 
 
 def view_and_update_blooms():
-    table = []
+    table: list[list[str]] = []
     for item in storage.STORAGE.products:
         table.append(item.to_list())
 

@@ -10,7 +10,7 @@ def add_new_addons():
 
     name = input("Enter addon name: ")
     code = get_product_code()
-    price = input("Enter addon price: ")
+    price = int(input("Enter addon price: "))
 
     # create a new item
     storage.STORAGE.append_addon(Addon(code, name, price, True))
