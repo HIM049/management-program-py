@@ -10,37 +10,19 @@ def clear_console():
         # if not running on windows
         os.system('clear')
 
-# print a table with 5 lines
-def print_table_blooms(data: list[list[str]]):
+def print_table(lines: int, data: list[list[str]]):
     # the frame for lines
-    row_template = "{:<18}{:<18}{:<18}{:<18}{:<18}"
+    row_template: str = ""
+    for _ in range(lines):
+        row_template += "{:<18}"
 
     # title
-    header = ["Item Code", "Name", "Category", "Price", "Available"]
+    header = data[0]
     print(row_template.format(*header))
-    
     # divider
     print("-" * (len(header) * 18))
     
-    for row in data:
-        content: list[str] = [] 
-        for c in row:
-            content.append(str(c))
-        print(row_template.format(*content))
-
-# print a table with 4 lines
-def print_table_addons(data: list[list[str]]):
-    # the frame for lines
-    row_template = "{:<18}{:<18}{:<18}{:<18}"
-
-    # title
-    header = ["Item Code", "Name", "Price", "Available"]
-    print(row_template.format(*header))
-    
-    # divider
-    print("-" * (len(header) * 18))
-    
-    for row in data:
+    for row in data[1:]:
         content: list[str] = [] 
         for c in row:
             content.append(str(c))
@@ -55,3 +37,7 @@ def generate_random_id(length: int) -> str:
     for _ in range(length):
         random_id += secrets.choice(characters)
     return random_id
+
+def wait_to_continue():
+    print("Press enter to continue...")
+    input()

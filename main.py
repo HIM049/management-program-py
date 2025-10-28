@@ -1,5 +1,6 @@
 import menus.menu_main as menu_main
 import storage
+import utils
 
 # initialize storage
 def init_storage():
@@ -11,3 +12,4 @@ def init_storage():
 if __name__ == "__main__" :
     init_storage()
     menu_main.main_menu()
+    utils.clear_console()

@@ -1,4 +1,5 @@
-import menus.menu_inventory as menu_inventory
+from menus.menu_inventory import inventory_menu
+from menus.menu_sales import sales_menu
 import utils
 
 
@@ -18,9 +19,9 @@ def main_menu():
     while True:
         match get_menu_option_main() :
             case 1:
-                menu_inventory.inventory_menu()
+                inventory_menu()
             case 2:
-                pass
+                sales_menu()
             case 3:
                 # exit program
                 break
