@@ -1,6 +1,6 @@
 import time
 from models.products import Product
-import storage
+import storage.storage as storage
 import utils
 
 
@@ -45,7 +45,7 @@ def ask_update_item(item_index: int, product: Product):
             # skip
             print("skipped, the avilable status won't change")
 
-    storage.STORAGE.update_product(item_index, product)
+    storage.STORAGE.products[item_index] = product
 
 # print a table with 5 lines
 def print_table_blooms(data: list[list[str]]):

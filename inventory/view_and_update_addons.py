@@ -1,7 +1,7 @@
 
 import time
 from models.addon import Addon
-import storage
+import storage.storage as storage
 import utils
 
 
@@ -46,7 +46,7 @@ def ask_update_item(item_index: int, addon: Addon):
             # skip
             print("skipped, the avilable status won't change")
 
-    storage.STORAGE.update_addon(item_index, addon)
+    storage.STORAGE.addons[item_index] = addon
 
 
 # print a table with 5 lines

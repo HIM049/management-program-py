@@ -1,15 +1,8 @@
 import menus.menu_main as menu_main
-import storage
+import storage.storage as storage
 import utils
 
-# initialize storage
-def init_storage():
-    storage.check_storage_file(storage.products_storage_path)
-    storage.check_storage_file(storage.addons_storage_path)
-    storage.STORAGE.read_from_file()
-    storage.STORAGE.refresh_cache()
-
 if __name__ == "__main__" :
-    init_storage()
+    storage.STORAGE.init()
     menu_main.main_menu()
     utils.clear_console()

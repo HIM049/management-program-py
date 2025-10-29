@@ -1,6 +1,6 @@
 # create new product
 from models.addon import Addon
-import storage
+import storage.storage as storage
 import utils
 
 
@@ -13,7 +13,7 @@ def add_new_addons():
     price = int(input("Enter addon price: "))
 
     # create a new item
-    storage.STORAGE.append_addon(Addon(code, name, price, True))
+    storage.STORAGE.addons.append(Addon(code, name, price, True))
 
 def get_product_code() -> str:
     while True:

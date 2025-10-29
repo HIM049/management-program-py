@@ -1,5 +1,5 @@
 from models.products import Categories, Product
-import storage
+import storage.storage as storage
 import utils
 
 # create new product
@@ -13,7 +13,7 @@ def add_new_blooms():
     category = get_category()
 
     # create a new item
-    storage.STORAGE.append_product(Product(code, name, category, price, True))
+    storage.STORAGE.products.append(Product(code, name, category, price, True))
 
 def get_product_code() -> str:
     while True:
