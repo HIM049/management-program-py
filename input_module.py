@@ -1,5 +1,6 @@
 
 import messages
+from storage import storage
 import utils
 
 
@@ -7,9 +8,9 @@ def input_bool(msg: str, repeat: bool, cancel_by: str | None) -> bool | None:
     while True:
         value = input(msg).upper()
         match value:
-            case "T":
+            case "T" | "Y":
                 return True
-            case "F":
+            case "F" | "N":
                 return False
             case _ if cancel_by != None and value == cancel_by.upper():
                 return None
@@ -18,17 +19,21 @@ def input_bool(msg: str, repeat: bool, cancel_by: str | None) -> bool | None:
                 if not repeat:
                     break
 
-def input_option(options: list[str], msg: str, repeat: bool, is_leader_number: bool, cancel_by: str | None) -> int | None:
+def input_option(options: list[str], msg: str, clear: bool, repeat: bool, is_leader_number: bool, cancel_by: str | None) -> int | None:
     base_chr = ord("a")
     while True:
         # print options
-        utils.clear_console()
+        if clear:
+            utils.clear_console()
         for i, option in enumerate(options):
             if is_leader_number:
                 leader = chr(i + base_chr)
             else:
                 leader = i+1
             print(f"{leader}. {option}")
+
+        if cancel_by != None:
+            print(f"{cancel_by}. Go back")
 
         value = input(msg).lower()
         # cancel
@@ -39,7 +44,8 @@ def input_option(options: list[str], msg: str, repeat: bool, is_leader_number: b
         if len(value) != 1:
             if repeat:
                 print(messages.INPUT_UNKNOW_MSG_ENTER_RETRY)
-                utils.wait_to_continue()
+                if clear:
+                    utils.wait_to_continue()
                 continue
             return None
             
@@ -51,7 +57,8 @@ def input_option(options: list[str], msg: str, repeat: bool, is_leader_number: b
             else:
                 if repeat:
                     print(messages.INPUT_UNKNOW_MSG_ENTER_RETRY)
-                    utils.wait_to_continue()
+                    if clear:
+                        utils.wait_to_continue()
                     continue
                 return None
         else:
@@ -61,13 +68,14 @@ def input_option(options: list[str], msg: str, repeat: bool, is_leader_number: b
             else:
                 if repeat:
                     print(messages.INPUT_UNKNOW_MSG_ENTER_RETRY)
-                    utils.wait_to_continue()
+                    if clear:
+                        utils.wait_to_continue()
                     continue
                 return None
 
         return result
     
-def input_text(msg: str, repeat: bool, cut: int | None, cancel_by: str | None) -> str | None:
+def input_text(msg: str, cut: int | None, cancel_by: str | None) -> str | None:
     while True:
         text = input(msg)
 
@@ -79,5 +87,19 @@ def input_text(msg: str, repeat: bool, cut: int | None, cancel_by: str | None) -
         if cut != None:
             text = text[0:cut]
 
-        if not repeat:
+        return text
+    
+
+def input_product(msg: str, repeat: bool, cancel_by: str | None) -> str | None:
+    while True:
+        value = input(msg).upper()
+        # cancel
+        if value == cancel_by and cancel_by != None:
             return None
+        
+        # check valid
+        if storage.STORAGE.products.get_cache(value) == None:
+            if repeat:
+                continue
+            return None
+        return value

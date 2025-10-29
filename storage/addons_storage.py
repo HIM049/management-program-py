@@ -6,7 +6,7 @@ from storage.products_storage import BaseStrage
 
 class AddonsStorage(BaseStrage):
     _addons: list[Addon]
-    _cache: dict[str, Any]
+    _cache: dict[str, int]
 
     def __init__(self):
         super().__init__("addons.json")
@@ -56,5 +56,5 @@ class AddonsStorage(BaseStrage):
         self.refresh_cache()
 
     # try to get cache data
-    def get_cache(self, id: str) -> Any | None:
+    def get_cache(self, id: str) -> int | None:
         return self._cache.get(id)

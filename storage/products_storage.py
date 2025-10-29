@@ -5,7 +5,7 @@ from storage.base_storage import BaseStrage
 # products storage file
 class ProductsStorage(BaseStrage):
     _products: list[Product]
-    _cache: dict[str, Any]
+    _cache: dict[str, int]
 
     def __init__(self):
         super().__init__("products.json")
@@ -55,5 +55,5 @@ class ProductsStorage(BaseStrage):
         self.refresh_cache()
 
     # try to get cache data
-    def get_cache(self, id: str) -> Any | None:
+    def get_cache(self, id: str) -> int | None:
         return self._cache.get(id)
