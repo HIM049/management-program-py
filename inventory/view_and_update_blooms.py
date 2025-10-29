@@ -14,13 +14,13 @@ def view_and_update_blooms():
         # go back
         return
     
-    item_index = storage.STORAGE.products_id_cache.get(id)
+    item_index = storage.STORAGE.products.get_cache(id)
     if item_index == None:
         # item not found
         print("product id not found")
         time.sleep(2)
         return
-    ask_update_item(item_index, storage.STORAGE.products[item_index])
+    ask_update_item(item_index, storage.STORAGE.products.read(item_index))
     
 def ask_update_item(item_index: int, product: Product):
     utils.clear_console()
@@ -45,7 +45,7 @@ def ask_update_item(item_index: int, product: Product):
             # skip
             print("skipped, the avilable status won't change")
 
-    storage.STORAGE.products[item_index] = product
+    storage.STORAGE.products.update(item_index, product)
 
 # print a table with 5 lines
 def print_table_blooms(data: list[list[str]]):
@@ -58,7 +58,7 @@ def print_table_blooms(data: list[list[str]]):
 def print_table_product_all():
     data: list[list[str]] = []
     # items
-    for item in storage.STORAGE.products:
+    for item in storage.STORAGE.products.read_list():
         data.append(item.to_list())
     print_table_blooms(data)
 

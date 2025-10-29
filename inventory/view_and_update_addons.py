@@ -15,13 +15,13 @@ def view_and_update_addons():
         # go back
         return
     
-    item_index = storage.STORAGE.addons_id_cache.get(id)
+    item_index = storage.STORAGE.addons.get_cache(id)
     if item_index == None:
         # item not found
         print("product id not found")
         time.sleep(2)
         return
-    ask_update_item(item_index, storage.STORAGE.addons[item_index])
+    ask_update_item(item_index, storage.STORAGE.addons.read(item_index))
     
 def ask_update_item(item_index: int, addon: Addon):
     utils.clear_console()
@@ -46,7 +46,7 @@ def ask_update_item(item_index: int, addon: Addon):
             # skip
             print("skipped, the avilable status won't change")
 
-    storage.STORAGE.addons[item_index] = addon
+    storage.STORAGE.addons.update(item_index, addon)
 
 
 # print a table with 5 lines
@@ -60,7 +60,7 @@ def print_table_addons(data: list[list[str]]):
 def print_table_addon_all():
     data: list[list[str]] = []
     # items
-    for item in storage.STORAGE.addons:
+    for item in storage.STORAGE.addons.read_list():
         data.append(item.to_list())
     print_table_addons(data)
 
