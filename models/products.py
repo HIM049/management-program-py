@@ -15,14 +15,14 @@ class Product:
     item_name: str
     category: Categories
     price: int
-    available: bool
+    is_available: bool
 
-    def __init__(self, item_code: str, item_name: str, category: Categories, price: int, available: bool = True):
+    def __init__(self, item_code: str, item_name: str, category: Categories, price: int, is_available: bool = True):
         self.item_code = item_code
         self.item_name = item_name
         self.category = category
         self.price = price
-        self.available = available
+        self.is_available = is_available
 
     # transfer to dict
     def to_dict(self) -> dict[str, Any]:
@@ -31,7 +31,7 @@ class Product:
             "item_name": self.item_name,
             "category": self.category.value,
             "price": self.price,
-            "available": self.available,
+            "is_available": self.is_available,
         }
     
     @classmethod
@@ -41,8 +41,8 @@ class Product:
             d["item_name"],
             Categories(d["category"]),
             d["price"],
-            d["available"],
+            d["is_available"],
         )
 
     def to_list(self) -> list[str]:
-        return [self.item_code, self.item_name, self.category.name, str(self.price), str(self.available)]
+        return [self.item_code, self.item_name, self.category.name, str(self.price), str(self.is_available)]

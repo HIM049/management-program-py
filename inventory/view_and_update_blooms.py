@@ -38,9 +38,9 @@ def ask_update_item(item_index: int, product: Product):
     data = input("Enter T/F to update status, or anything to skip: ").upper()
     match data:
         case "T":
-            product.available = True
+            product.is_available = True
         case "F":
-            product.available = False
+            product.is_available = False
         case _:
             # skip
             print("skipped, the avilable status won't change")

@@ -39,9 +39,9 @@ def ask_update_item(item_index: int, addon: Addon):
     data = input("Enter T/F to update status, or anything to skip: ").upper()
     match data:
         case "T":
-            addon.available = True
+            addon.is_available = True
         case "F":
-            addon.available = False
+            addon.is_available = False
         case _:
             # skip
             print("skipped, the avilable status won't change")
