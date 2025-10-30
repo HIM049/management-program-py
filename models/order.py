@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from enum import Enum
 from typing import Any
 from models.addon import Addon
@@ -13,27 +14,40 @@ class OrderStatus(Enum):
 
 class Delivery:
     address: str
-    date: str # TODO: to date lib
+    date: datetime
     is_delivery_sameday: bool
+    is_delivery_weekend: bool
 
-    def __init__(self, address: str, date: str, is_delivery_sameday: bool):
+    def __init__(self, address: str, date: datetime, is_delivery_sameday: bool, is_delivery_weekend: bool):
         self.address = address
         self.date = date
         self.is_delivery_sameday = is_delivery_sameday
+        self.is_delivery_weekend = is_delivery_weekend
+
+    @classmethod
+    def new(cls, address: str, delivery_date: datetime):
+        return cls(
+            address,
+            delivery_date,
+            delivery_date == date.today(),
+            delivery_date.weekday() > 4
+        )
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "address": self.address,
-            "date": self.date,
+            "date": self.date.strftime("%Y/%m/%d"),
             "is_delivery_sameday": self.is_delivery_sameday,
+            "is_delivery_weekend": self.is_delivery_weekend
         }
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]):
         return cls(
             d["address"],
-            d["date"],
+            datetime.strptime(d["date"], "%Y/%m/%d"),
             d["is_delivery_sameday"],
+            d["is_delivery_weekend"]
         )
     
 class OrderDetails:
@@ -101,6 +115,8 @@ class OrderDetails:
             total += 35
             if self.delivery.is_delivery_sameday:
                 total += 35
+            if self.delivery.is_delivery_weekend:
+                total += 10
         return total
     
     def get_summary_table(self) -> Table:
@@ -118,14 +134,19 @@ class OrderDetails:
 
         # have delivery
         if self.delivery != None:
-            layout_products.append_row(TableRow(["Delivery date:", self.delivery.date, "", ""]))
+            layout_products.append_row(TableRow(["Delivery date:", self.delivery.date.strftime("%Y/%m/%d"), "", ""]))
             
             # need same day delivery
-            price: int = 35 if self.delivery.is_delivery_sameday else 0
+            price1: int = 35 if self.delivery.is_delivery_sameday else 0
             status: str = "Yes" if self.delivery.is_delivery_sameday else "No"
-            layout_products.append_row(TableRow(["Same day delivery:", status, "", f"${price}"]))
+            layout_products.append_row(TableRow(["Same day delivery:", status, "", f"${price1}"]))
+            
+            price2: int = 10 if self.delivery.is_delivery_weekend else 0
+            status: str = "Yes" if self.delivery.is_delivery_weekend else "No"
+            layout_products.append_row(TableRow(["Weekend delivery:", status, "", f"${price2}"]))
 
-            layout_products.append_row(TableRow(["Delivery charges:", "", "", "$35"]))
+            fee = 35 + price1 + price2
+            layout_products.append_row(TableRow(["Delivery charges:", "", "", f"${fee}"]))
         else:
             layout_products.append_row(TableRow(["Collect by:", "Store pickup", "", ""]))
         layout_products.append_row(TableRow(["Total:", "", "", f"${self.get_price()}"]))
@@ -134,6 +155,7 @@ class OrderDetails:
         layout_products.append_blank_row()
         table.append_layout(layout_products)
 
+        # customer details
         layout_details = TableLayout(2)
         layout_details.append_row(TableRow(["Customer’s name:", self.customer_name]))
         layout_details.append_row(TableRow(["Recipient’s name:", self.recipient_name]))

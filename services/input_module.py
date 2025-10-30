@@ -1,4 +1,5 @@
 
+from datetime import datetime
 import messages
 from storage import storage
 import utils
@@ -103,3 +104,15 @@ def input_product(msg: str, repeat: bool, cancel_by: str | None) -> str | None:
                 continue
             return None
         return value
+
+def input_date(msg: str, repeat: bool, cancel: str | None) -> datetime | None:
+    while True:
+        value = input(msg)
+        if cancel != None and value == cancel:
+            return None
+        try:
+            return datetime.strptime(value, "%Y/%m/%d")
+        except ValueError:
+            if repeat:
+                continue
+            return None

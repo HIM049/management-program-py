@@ -1,5 +1,6 @@
+from datetime import datetime
 from typing import cast
-from services.input_module import input_bool, input_option, input_product
+from services.input_module import input_date, input_option, input_product
 from inventory.view_and_update_addons import print_table_addon_all
 import messages
 from models.addon import Addon
@@ -89,12 +90,8 @@ def order_item():
         if result == 1:
             # need delivery
             address = input("delivery address: ")
-            date = input("delivery date: ")
-            if input_bool("same day delivery? (Additional charge of $35 applies) (y/n)", True, None):
-                is_delivery_sameday = True
-            else:
-                is_delivery_sameday = False
-            delivery = Delivery(address, date, is_delivery_sameday)
+            date = input_date("delivery date (yyyy/mm/dd): ", True, None)
+            delivery = Delivery.new(address, cast(datetime, date))
 
         details = OrderDetails(product, addon, customer_name, recipient_name, message, delivery)
 
@@ -104,7 +101,7 @@ def order_item():
         print("------------------------------------")
         result = input_option(
             ["Confirm", "Edit info"], 
-            "Store pickup or Delivery? ($35 for delivery): ",
+            "Confirm the details: ",
             repeat=True,
             is_leader_chr=False,
             clear=False,
