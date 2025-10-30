@@ -175,5 +175,5 @@ class Order:
         )
     
     def to_list(self) -> list[str]:
-        return [self.id, self.status.name]
+        return [self.id, self.order_datails.product.item_name ,self.status.name]
 

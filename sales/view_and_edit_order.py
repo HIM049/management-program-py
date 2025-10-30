@@ -8,13 +8,14 @@ import utils
 
 
 def view_and_edit_order():
+    filter: OrderStatus = OrderStatus.Open
     while True:
         utils.clear_console()
         print("View orders")
         
-        layout = TableLayout(2)
-        layout.set_header(TableRow(["Order number", "Status"]))
-        for item in storage.STORAGE.orders.read_list_with_filter(OrderStatus.Open):
+        layout = TableLayout(3)
+        layout.set_header(TableRow(["Order number", "Product", "Status"]))
+        for item in storage.STORAGE.orders.read_list_with_filter(filter):
             layout.append_row(TableRow(item.to_list()))
         layout.append_blank_row()
         layout.print()
@@ -22,21 +23,20 @@ def view_and_edit_order():
         result = input_option(
             [
                 "Edit/Cancel order", 
-                "Filter order by status",
-                "Back to main menu"
+                "Filter order by status"
             ],
             "Enter a option to select: ",
             False,
             False,
             False,
-            None
+            ("0", "Back to main menu")
         )
         match result:
             case 0:
                 set_order()
             case 1:
-                pass
-            case 2:
+                filter = set_filter()
+            case None:
                 break
             case _:
                 pass
@@ -123,6 +123,38 @@ def set_order():
                 print("this order already closed")
                 utils.wait_to_continue()
         break
+
+def set_filter() -> OrderStatus:
+    utils.clear_console()
+    print("Please choose a status below")
+    result = input_option(
+        [
+            "Open",
+            "Cancelled",
+            "Preparing",
+            "Ready",
+            "Closed",
+        ],
+        "Enter a option to select: ",
+        False,
+        True,
+        False,
+        ("0", "Go back")
+    )
+
+    match result:
+        case 0:
+            return OrderStatus.Open
+        case 1:
+            return OrderStatus.Cancelled
+        case 2:
+            return OrderStatus.Preparing
+        case 3:
+            return OrderStatus.Ready
+        case 4:
+            return OrderStatus.Closed
+        case _:
+            return OrderStatus.Open
 
 def update_order(order: Order, new_status: OrderStatus):
     order.status = new_status
