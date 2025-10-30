@@ -19,21 +19,21 @@ def input_bool(msg: str, repeat: bool, cancel_by: str | None) -> bool | None:
                 if not repeat:
                     break
 
-def input_option(options: list[str], msg: str, clear: bool, repeat: bool, is_leader_number: bool, cancel_by: str | None) -> int | None:
+def input_option(options: list[str], msg: str, clear: bool, repeat: bool, is_leader_chr: bool, cancel_by: str | None) -> int | None:
     base_chr = ord("a")
     while True:
         # print options
         if clear:
             utils.clear_console()
         for i, option in enumerate(options):
-            if is_leader_number:
+            if is_leader_chr:
                 leader = chr(i + base_chr)
             else:
                 leader = i+1
             print(f"{leader}. {option}")
 
         if cancel_by != None:
-            print(f"{cancel_by}. Go back")
+            print(f"{cancel_by}. Cancel")
 
         value = input(msg).lower()
         # cancel
@@ -51,7 +51,7 @@ def input_option(options: list[str], msg: str, clear: bool, repeat: bool, is_lea
             
         # calc input number
         result: int = 0
-        if is_leader_number:
+        if is_leader_chr:
             if "a" <= value < chr(len(options) + base_chr):
                 result = ord(value) - base_chr
             else:

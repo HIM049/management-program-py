@@ -1,6 +1,7 @@
 from typing import Any
 from models.addon import Addon
 from models.products import Product
+from services.table import Table, TableLayout, TableRow
 
 
 class Delivery:
@@ -27,8 +28,8 @@ class Delivery:
             d["date"],
             d["is_delivery_sameday"],
         )
-
-class Order:
+    
+class OrderDetails:
     product: Product
     addon: Addon | None
 
@@ -45,7 +46,7 @@ class Order:
             customer_name: str, 
             recipient_name: str,
             message: str,
-            delivery: Delivery | None
+            delivery: Delivery | None,
         ):
         self.product = product
         self.addon = addon
@@ -53,7 +54,7 @@ class Order:
         self.recipient_name = recipient_name
         self.message = message
         self.delivery = delivery
-
+    
     def to_dict(self) -> dict[str, Any]:
         return {
             "product": self.product.to_dict(),
@@ -66,12 +67,96 @@ class Order:
     
     @classmethod
     def from_dict(cls, d: dict[str, Any]):
-        return cls (
+        return cls(
             Product.from_dict(d["product"]),
             Addon.from_dict(d["addon"]),
             d["customer_name"],
             d["recipient_name"],
             d["message"],
             Delivery.from_dict(d["delivery"]),
+        )
+
+    def get_price(self) -> int:
+        total: int = 0
+        total += self.product.price
+        if self.addon != None:
+            total += self.addon.price
+
+        if self.delivery != None:
+            # delivery fee
+            total += 35
+            if self.delivery.is_delivery_sameday:
+                total += 35
+        return total
+    
+    def get_summary_table(self) -> Table:
+        table = Table()
+        layout_products = TableLayout(4)
+
+        layout_products.append_row(TableRow(["Item:", self.product.item_name, self.product.item_code, f"${self.product.price}"]))
+        # have addon
+        if self.addon != None:
+            layout_products.append_row(TableRow(["Addon:", self.addon.item_name, self.addon.item_code, f"${self.addon.price}"]))
+        else:
+            layout_products.append_row(TableRow(["Addon:", "None", "", "$0"]))
+
+        layout_products.append_blank_row()
+
+        # have delivery
+        if self.delivery != None:
+            layout_products.append_row(TableRow(["Delivery date:", self.delivery.date, "", ""]))
+            
+            # need same day delivery
+            price: int = 35 if self.delivery.is_delivery_sameday else 0
+            status: str = "Yes" if self.delivery.is_delivery_sameday else "No"
+            layout_products.append_row(TableRow(["Same day delivery:", status, "", f"${price}"]))
+
+            layout_products.append_row(TableRow(["Delivery charges:", "", "", "$35"]))
+        else:
+            layout_products.append_row(TableRow(["Collect by:", "Store pickup", "", ""]))
+        layout_products.append_row(TableRow(["Total:", "", "", f"${self.get_price()}"]))
+
+        # blank line
+        layout_products.append_blank_row()
+        table.append_layout(layout_products)
+
+        layout_details = TableLayout(2)
+        layout_details.append_row(TableRow(["Customer’s name:", self.customer_name]))
+        layout_details.append_row(TableRow(["Recipient’s name:", self.recipient_name]))
+        layout_details.append_row(TableRow(["Message for recipient:", self.message]))
+        if self.delivery != None:
+            layout_details.append_row(TableRow(["Delivery address:", self.delivery.address]))
+
+        table.append_layout(layout_details)
+        return table
+
+class Order:
+    id: str
+    order_datails: OrderDetails
+    is_open: bool
+
+    def __init__(
+            self, 
+            id: str,
+            order_datails: OrderDetails,
+            is_open: bool
+        ):
+        self.id = id
+        self.order_datails = order_datails
+        self.is_open = is_open
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "order_details": self.order_datails.to_dict(),
+            "is_open": self.is_open
+        }
+    
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]):
+        return cls (
+            d["id"],
+            OrderDetails.from_dict(d["order_details"]),
+            d["is_open"]
         )
 
