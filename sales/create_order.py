@@ -54,7 +54,7 @@ def order_item():
     
     # list of addons
     addon: Addon | None = None
-    print_table_addon_all() # TODO: should with filter
+    print_table_addon_all()
     while True:
         # ask for addon code and check it
         id = input("Enter item code for addon, or 0 to skip: ").upper()

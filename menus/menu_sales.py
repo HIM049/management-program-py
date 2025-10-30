@@ -1,4 +1,5 @@
 from sales.create_order import create_new_order
+from sales.view_and_edit_order import view_and_edit_order
 import utils
 
 # TODO: add menu object
@@ -18,7 +19,7 @@ def sales_menu() :
             case "A":
                 create_new_order()
             case "B":
-                pass
+                view_and_edit_order()
             case "E":
                 # back to main
                 break

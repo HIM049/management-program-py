@@ -1,8 +1,15 @@
+from enum import Enum
 from typing import Any
 from models.addon import Addon
 from models.products import Product
 from services.table import Table, TableLayout, TableRow
 
+class OrderStatus(Enum):
+    Open = 1
+    Cancelled = 2
+    Preparing = 3
+    Ready = 4
+    Closed = 5
 
 class Delivery:
     address: str
@@ -67,13 +74,20 @@ class OrderDetails:
     
     @classmethod
     def from_dict(cls, d: dict[str, Any]):
+        addon: Addon | None = None
+        delivery: Addon | None = None
+        if d["addon"] != None:
+            addon = Addon.from_dict(d["addon"])
+        if d["delivery"] != None:
+            Delivery.from_dict(d["delivery"])
+            
         return cls(
             Product.from_dict(d["product"]),
-            Addon.from_dict(d["addon"]),
+            addon,
             d["customer_name"],
             d["recipient_name"],
             d["message"],
-            Delivery.from_dict(d["delivery"]),
+            delivery,
         )
 
     def get_price(self) -> int:
@@ -133,23 +147,23 @@ class OrderDetails:
 class Order:
     id: str
     order_datails: OrderDetails
-    is_open: bool
+    status: OrderStatus
 
     def __init__(
             self, 
             id: str,
             order_datails: OrderDetails,
-            is_open: bool
+            status: OrderStatus
         ):
         self.id = id
         self.order_datails = order_datails
-        self.is_open = is_open
+        self.status = status
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "order_details": self.order_datails.to_dict(),
-            "is_open": self.is_open
+            "status": self.status.value
         }
     
     @classmethod
@@ -157,6 +171,9 @@ class Order:
         return cls (
             d["id"],
             OrderDetails.from_dict(d["order_details"]),
-            d["is_open"]
+            OrderStatus(d["status"])
         )
+    
+    def to_list(self) -> list[str]:
+        return [self.id, self.status.name]
 
