@@ -1,5 +1,5 @@
 
-from input_module import input_option, input_text
+from services.input_module import input_option, input_text
 import messages
 from models.order import Order, OrderStatus
 from services.table import TableLayout, TableRow
@@ -60,7 +60,7 @@ def set_order():
                     False,
                     True,
                     False,
-                    "0"
+                    ("0", "Cacnel")
                 )
                 if result == None:
                     return
@@ -78,7 +78,7 @@ def set_order():
                     False,
                     True,
                     False,
-                    "0"
+                    ("0", "Cacnel")
                 )
                 if result == None:
                     return
@@ -93,7 +93,7 @@ def set_order():
                     False,
                     True,
                     False,
-                    "0"
+                    ("0", "Cacnel")
                 )
                 if result == None:
                     return
@@ -108,7 +108,7 @@ def set_order():
                     False,
                     True,
                     False,
-                    "0"
+                    ("0", "Cacnel")
                 )
                 if result == None:
                     return

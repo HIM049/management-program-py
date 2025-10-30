@@ -19,7 +19,7 @@ def input_bool(msg: str, repeat: bool, cancel_by: str | None) -> bool | None:
                 if not repeat:
                     break
 
-def input_option(options: list[str], msg: str, clear: bool, repeat: bool, is_leader_chr: bool, cancel_by: str | None) -> int | None:
+def input_option(options: list[str], msg: str, clear: bool, repeat: bool, is_leader_chr: bool, cancel: tuple[str, str] | None) -> int | None:
     base_chr = ord("a")
     while True:
         # print options
@@ -32,12 +32,12 @@ def input_option(options: list[str], msg: str, clear: bool, repeat: bool, is_lea
                 leader = i+1
             print(f"{leader}. {option}")
 
-        if cancel_by != None:
-            print(f"{cancel_by}. Cancel")
+        if cancel != None:
+            print(f"{cancel[0]}. {cancel[1]}")
 
         value = input(msg).lower()
         # cancel
-        if value == cancel_by and cancel_by != None:
+        if cancel != None and value == cancel[0] :
             return None
         
         # check length
