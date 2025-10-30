@@ -43,7 +43,7 @@ def input_option(options: list[str], msg: str, clear: bool, repeat: bool, is_lea
         # check length
         if len(value) != 1:
             if repeat:
-                print(messages.INPUT_UNKNOW_MSG_ENTER_RETRY)
+                print(messages.INPUT_UNKNOW_MSG_RETRY)
                 if clear:
                     utils.wait_to_continue()
                 continue
@@ -56,18 +56,18 @@ def input_option(options: list[str], msg: str, clear: bool, repeat: bool, is_lea
                 result = ord(value) - base_chr
             else:
                 if repeat:
-                    print(messages.INPUT_UNKNOW_MSG_ENTER_RETRY)
+                    print(messages.INPUT_UNKNOW_MSG_RETRY)
                     if clear:
                         utils.wait_to_continue()
                     continue
                 return None
         else:
-            if "1" <= value < str(len(options)):
+            if "1" <= value <= str(len(options)):
                 # -1 to be index
                 result = int(value) - 1
             else:
                 if repeat:
-                    print(messages.INPUT_UNKNOW_MSG_ENTER_RETRY)
+                    print(messages.INPUT_UNKNOW_MSG_RETRY)
                     if clear:
                         utils.wait_to_continue()
                     continue

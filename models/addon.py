@@ -23,12 +23,12 @@ class Addon:
             d["is_available"],
         )
     
-    def to_dict(self) -> dict[str, str]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "item_code": self.item_code,
             "item_name": self.item_name,
-            "price": str(self.price),
-            "is_available": str(self.is_available)
+            "price": self.price,
+            "is_available": self.is_available
         }
     
     def to_list(self) -> list[str]:

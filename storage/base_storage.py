@@ -15,6 +15,7 @@ class BaseStrage:
     def save_data_to_file(self, data: list[dict[str, Any]]):
         with open(self._file_path, "w") as file:
             json.dump(data, file, indent=4)
+        file.close()
     
     # read from file
     def read_data_from_file(self) -> list[dict[str, Any]]:
@@ -29,5 +30,6 @@ class BaseStrage:
             try:
                 with open(self._file_path, "w") as file:
                     json.dump(init_data, file, indent=4)
+                file.close()
             except:
                 print("failed to create file")

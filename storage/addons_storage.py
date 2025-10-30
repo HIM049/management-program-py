@@ -10,6 +10,8 @@ class AddonsStorage(BaseStrage):
 
     def __init__(self):
         super().__init__("addons.json")
+        self._addons = []
+        self._cache = {}
         self.check_file_exist()
         self.read_from_file()
         self.refresh_cache()

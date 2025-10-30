@@ -9,6 +9,8 @@ class ProductsStorage(BaseStrage):
 
     def __init__(self):
         super().__init__("products.json")
+        self._products = []
+        self._cache = {}
         self.check_file_exist()
         self.read_from_file()
         self.refresh_cache()
