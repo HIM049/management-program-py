@@ -19,6 +19,9 @@ class TableLayout:
             raise ValueError("lines mismatching")
         self._rows.append(row)
 
+    def set_rows(self, rows: list[TableRow]):
+        self._rows = rows
+
     def append_blank_row(self):
         row = TableRow([""] * self._lines)
         self.append_row(row)

@@ -65,19 +65,19 @@ class OrderStorage(BaseStrage):
         self._orders[index] = new_item
         self.save_to_file()
         self.refresh_cache()
-
-    def get_cache(self, code: str) -> int | None:
-        return self._cache.get(code)
-    
-    def get_by_id(self, id: str) -> Order | None:
-        result = self.get_cache(id)
-        if result == None:
-            return None
-        return self._orders[result]
     
     def update_by_id(self, id: str, new_item: Order):
         index = self.get_cache(id)
         if index == None:
             raise ValueError("item not found")
         self.update(index, new_item)
+
+    def get_cache(self, code: str) -> int | None:
+        return self._cache.get(code)
+    
+    def get_item(self, id: str) -> Order | None:
+        result = self.get_cache(id)
+        if result == None:
+            return None
+        return self.read(result)
         

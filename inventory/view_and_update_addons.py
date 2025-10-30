@@ -1,6 +1,7 @@
 
 import time
 from models.addon import Addon
+from services.table import TableLayout, TableRow
 import storage.storage as storage
 import utils
 
@@ -48,21 +49,18 @@ def ask_update_item(item_index: int, addon: Addon):
 
     storage.STORAGE.addons.update(item_index, addon)
 
-
-# print a table with 5 lines
-def print_table_addons(data: list[list[str]]):
-    table: list[list[str]] = []
-    # title
-    table.append(["Item Code", "Name", "Price", "Available"]) 
-    table.extend(data)
-    utils.print_table(4, table)
+def print_table_addons(data: list[TableRow]):
+    layout = TableLayout(4)
+    layout.set_header(TableRow(["Item Code", "Name", "Price", "Available"]))
+    layout.set_rows(data)
+    layout.print()
 
 def print_table_addon_all():
-    data: list[list[str]] = []
+    data: list[TableRow] = []
     # items
     for item in storage.STORAGE.addons.read_list():
-        data.append(item.to_list())
+        data.append(TableRow(item.to_list()))
     print_table_addons(data)
 
 def print_table_addon_single(a: Addon):
-    print_table_addons([a.to_list()])
+    print_table_addons([TableRow(a.to_list())])

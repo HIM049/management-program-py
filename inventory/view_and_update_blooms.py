@@ -1,5 +1,6 @@
-import time
+import messages
 from models.products import Product
+from services.table import TableLayout, TableRow
 import storage.storage as storage
 import utils
 
@@ -14,15 +15,15 @@ def view_and_update_blooms():
         # go back
         return
     
-    item_index = storage.STORAGE.products.get_cache(id)
-    if item_index == None:
+    product = storage.STORAGE.products.get_item(id)
+    if product == None:
         # item not found
-        print("product id not found")
-        time.sleep(2)
+        print(messages.CANNOT_FIND_ITEM)
+        utils.wait_to_continue()
         return
-    ask_update_item(item_index, storage.STORAGE.products.read(item_index))
+    ask_update_item(product)
     
-def ask_update_item(item_index: int, product: Product):
+def ask_update_item(product: Product):
     utils.clear_console()
     print_table_product_single(product)
 
@@ -45,22 +46,21 @@ def ask_update_item(item_index: int, product: Product):
             # skip
             print("skipped, the avilable status won't change")
 
-    storage.STORAGE.products.update(item_index, product)
+    storage.STORAGE.products.update_by_id(product.item_code, product)
 
 # print a table with 5 lines
-def print_table_blooms(data: list[list[str]]):
-    table: list[list[str]] = []
-    # title
-    table.append(["Item Code", "Name", "Category", "Price", "Available"]) 
-    table.extend(data)
-    utils.print_table(5, table)
+def print_table_blooms(data: list[TableRow]):
+    layout = TableLayout(5)
+    layout.set_header(TableRow(["Item Code", "Name", "Category", "Price", "Available"]))
+    layout.set_rows(data)
+    layout.print()
 
 def print_table_product_all():
-    data: list[list[str]] = []
+    data: list[TableRow] = []
     # items
     for item in storage.STORAGE.products.read_list():
-        data.append(item.to_list())
+        data.append(TableRow(item.to_list()))
     print_table_blooms(data)
 
 def print_table_product_single(product: Product):
-    print_table_blooms([product.to_list()])
+    print_table_blooms([TableRow(product.to_list())])

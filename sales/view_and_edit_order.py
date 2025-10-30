@@ -47,7 +47,7 @@ def set_order():
         if result == None:
             # cancel by user
             return
-        order = storage.STORAGE.orders.get_by_id(result)
+        order = storage.STORAGE.orders.get_item(result)
         if order == None:
             print(messages.CANNOT_FIND_ITEM)
             continue

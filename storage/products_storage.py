@@ -55,7 +55,19 @@ class ProductsStorage(BaseStrage):
         self._products[index] = new_item
         self.save_to_file()
         self.refresh_cache()
+    
+    def update_by_id(self, id: str, new_item: Product):
+        result = self.get_cache(id)
+        if result == None:
+            raise ValueError("item not found")
+        self.update(result, new_item)
 
     # try to get cache data
     def get_cache(self, id: str) -> int | None:
         return self._cache.get(id)
+    
+    def get_item(self, id: str) -> Product | None:
+        result = self.get_cache(id)
+        if result == None:
+            return None
+        return self.read(result)
