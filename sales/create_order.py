@@ -19,30 +19,28 @@ def create_new_order():
         show_products_list_with_condition(sort, category)
         print("")
 
-        if category == None:
-            print("1. Filter products by category")
-        else:
-            print("1. Back to filter category")
-
-        if not sort:
-            print("2. Sort products by price")
-        else:
-            print("2. Do not sort products by price")
-
-        print("3. Order item")
-        print("0. Go back")
-
-        
-        match input("Enter a option: "):
-            case "1":
+        result = input_option(
+            [
+                "Filter products by category" if category == None else "Back to filter category",
+                "Sort products by price" if not sort else "Do not sort products by price",
+                "Order item"
+            ],
+            messages.ENTER_OPTION_PROMPT,
+            False,
+            False,
+            False,
+            ("0", "Go back")
+        )
+        match result:
+            case 0:
                 category = get_category()
-            case "2":
+            case 1:
                 sort = not sort
-            case "3":
+            case 2:
                 utils.clear_console()
                 show_products_list_with_condition(sort, category)
                 order_item()
-            case "0":
+            case None:
                 break
             case _:
                 print(messages.UNKNOWN_OPTION_MSG)
@@ -134,7 +132,7 @@ def get_category() -> Categories | None:
             "Condolence",
             "Anniversary",
         ],
-        "Enter a option to select: ",
+        messages.ENTER_OPTION_PROMPT,
         False,
         True,
         False,

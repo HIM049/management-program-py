@@ -11,9 +11,9 @@ def view_and_edit_order():
     filter: OrderStatus = OrderStatus.Open
     while True:
         utils.clear_console()
-        print("View orders")
-        
+
         layout = TableLayout(3)
+        layout.set_title("Orders")
         layout.set_header(TableRow(["Order number", "Product", "Status"]))
         for item in storage.STORAGE.orders.read_list_with_filter(filter):
             layout.append_row(TableRow(item.to_list()))
@@ -25,7 +25,7 @@ def view_and_edit_order():
                 "Edit/Cancel order", 
                 "Filter order by status"
             ],
-            "Enter a option to select: ",
+            messages.ENTER_OPTION_PROMPT,
             False,
             False,
             False,
@@ -56,7 +56,7 @@ def set_order():
             case OrderStatus.Open:
                 result = input_option(
                     ["Cancel order", "Change to Preparing"],
-                    "Enter a option to select: ",
+                    messages.ENTER_OPTION_PROMPT,
                     False,
                     True,
                     False,
@@ -74,7 +74,7 @@ def set_order():
             case OrderStatus.Cancelled:
                 result = input_option(
                     ["Set back to Open"],
-                    "Enter a option to select: ",
+                    messages.ENTER_OPTION_PROMPT,
                     False,
                     True,
                     False,
@@ -89,7 +89,7 @@ def set_order():
             case OrderStatus.Preparing:
                 result = input_option(
                     ["Change to Ready"],
-                    "Enter a option to select: ",
+                    messages.ENTER_OPTION_PROMPT,
                     False,
                     True,
                     False,
@@ -104,7 +104,7 @@ def set_order():
             case OrderStatus.Ready:
                 result = input_option(
                     ["Change to Preparing", "Change to Closed"],
-                    "Enter a option to select: ",
+                    messages.ENTER_OPTION_PROMPT,
                     False,
                     True,
                     False,
@@ -135,7 +135,7 @@ def set_filter() -> OrderStatus:
             "Ready",
             "Closed",
         ],
-        "Enter a option to select: ",
+        messages.ENTER_OPTION_PROMPT,
         False,
         True,
         False,

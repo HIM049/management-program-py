@@ -16,6 +16,7 @@ def show_products_list_with_condition(sort: bool, category: Categories | None):
     # build and ptint table
 
     layout = TableLayout(5)
+    layout.set_title(f"Products ({category.name if category != None else "All"})")
     layout.set_header(TableRow(["Item Code", "Name", "Category", "Price", "Available"]))
     for item in product_list:
         layout.append_row(TableRow(item.to_list()))

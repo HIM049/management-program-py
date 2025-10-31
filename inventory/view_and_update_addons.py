@@ -51,6 +51,7 @@ def ask_update_item(item_index: int, addon: Addon):
 
 def print_table_addons(data: list[TableRow]):
     layout = TableLayout(4)
+    layout.set_title("Addons")
     layout.set_header(TableRow(["Item Code", "Name", "Price", "Available"]))
     layout.set_rows(data)
     layout.print()

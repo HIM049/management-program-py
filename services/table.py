@@ -5,14 +5,16 @@ class TableRow(list[str]):
         return len(self)
 
 class TableLayout:
-    _rows: list[TableRow]
+    _title: str
     _header: TableRow | None
+    _rows: list[TableRow]
     _lines: int
 
     def __init__(self, lines: int):
         self._rows = []
         self._lines = lines
         self._header = None
+        self._title = ""
 
     def append_row(self, row: TableRow):
         if row.length() != self._lines:
@@ -30,14 +32,17 @@ class TableLayout:
         if header.length() != self._lines:
             raise ValueError("lines mismatching")
         self._header = header
+
+    def set_title(self, title: str):
+        self._title = title
             
     def print(self):
         table: list[TableRow] = []
+        
         if self._header != None:
             table.append(self._header)
         table.extend(self._rows.copy())
-            
-        print_table(self._lines, table, self._header != None)
+        print_table(self._lines, table, self._title, self._header != None)
 
 class Table:
     content: list[TableLayout]
@@ -52,7 +57,10 @@ class Table:
         for layout in self.content:
             layout.print()
 
-def print_table(lines: int, data: list[TableRow], divider: bool):
+def print_table(lines: int, data: list[TableRow], title: str, divider: bool):
+    if len(title) > 0:
+        title_divider_length = ((lines * 18 - len(title) - 2) // 2)
+        print("-"*title_divider_length, title, "-"*title_divider_length)
     # the frame for lines
     row_template: str = ""
     for _ in range(lines):
