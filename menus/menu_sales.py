@@ -12,7 +12,7 @@ def get_menu_option_sales() -> str:
     print("a. Create order")
     print("b. View order")
     print("c. Rating for order")
-    print("e. Back to main menu")
+    print("d. Back to main menu")
 
     return input("Enter option: ").upper()
 
@@ -25,7 +25,7 @@ def sales_menu() :
                 view_and_edit_order()
             case "C":
                 append_rating()
-            case "E":
+            case "D":
                 # back to main
                 break
             case _:
