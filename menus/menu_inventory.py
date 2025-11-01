@@ -2,6 +2,7 @@ from inventory.view_and_update_blooms import view_and_update_blooms
 from inventory.add_new_blooms import add_new_blooms
 from inventory.view_and_update_addons import view_and_update_addons
 from inventory.add_new_addons import add_new_addons
+import messages
 import utils
 
 def get_menu_option_inventory() -> str: 
@@ -13,7 +14,7 @@ def get_menu_option_inventory() -> str:
     print("d. new add-on")
     print("e. Back to main menu")
 
-    return input("Enter option: ").upper()
+    return input(messages.ENTER_OPTION_PROMPT).upper()
 
 def inventory_menu() : 
     while True:

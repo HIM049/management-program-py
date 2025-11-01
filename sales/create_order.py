@@ -13,37 +13,34 @@ import utils
 
 def create_new_order():
     sort: bool = False
+    sort_rating = False
     category: Categories | None = None
     while True:
         utils.clear_console()
-        show_products_list_with_condition(sort, category)
-        print("")
+        show_products_list_with_condition(sort, sort_rating, category)
+        print("1. Filter products by category" if category == None else "Back to filter category")
+        print("2. Sort products by price" if not sort else "Do not sort products by price")
+        print("3. Sort products by rating" if not sort_rating else "Do not sort products by rating")
+        print("4. Order item")
+        print("5. Go back")
 
-        result = input_option(
-            [
-                "Filter products by category" if category == None else "Back to filter category",
-                "Sort products by price" if not sort else "Do not sort products by price",
-                "Order item"
-            ],
-            messages.ENTER_OPTION_PROMPT,
-            False,
-            False,
-            False,
-            ("0", "Go back")
-        )
-        match result:
-            case 0:
+        match input(messages.ENTER_OPTION_PROMPT):
+            case "1":
                 category = get_category()
-            case 1:
+            case "2":
+                sort_rating = False
                 sort = not sort
-            case 2:
+            case "3":
+                sort = False
+                sort_rating = not sort_rating
+            case "4":
                 utils.clear_console()
-                show_products_list_with_condition(sort, category)
+                show_products_list_with_condition(sort, sort_rating, category)
                 order_item()
-            case None:
+            case "5":
                 break
             case _:
-                print(messages.UNKNOWN_OPTION_MSG)
+                continue
 
 def order_item():
     # get product

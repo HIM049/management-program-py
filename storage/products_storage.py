@@ -71,3 +71,11 @@ class ProductsStorage(BaseStrage):
         if result == None:
             return None
         return self.read(result)
+    
+    def rating_item(self, code: str, rating: float):
+        index = self._cache.get(code)
+        if index == None:
+            raise ValueError("item not found")
+        product = self.read(index)
+        product.add_rating(rating)
+        self.update(index, product)

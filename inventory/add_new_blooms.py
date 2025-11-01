@@ -13,7 +13,7 @@ def add_new_blooms():
     category = get_category()
 
     # create a new item
-    storage.STORAGE.products.create(Product(code, name, category, price, True))
+    storage.STORAGE.products.create(Product(code, name, category, price, None, True))
 
 def get_product_code() -> str:
     while True:

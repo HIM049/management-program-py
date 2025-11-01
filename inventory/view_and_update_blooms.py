@@ -50,9 +50,9 @@ def ask_update_item(product: Product):
 
 # print a table with 5 lines
 def print_table_blooms(data: list[TableRow]):
-    layout = TableLayout(5)
+    layout = TableLayout(6)
     layout.set_title("Products")
-    layout.set_header(TableRow(["Item Code", "Name", "Category", "Price", "Available"]))
+    layout.set_header(TableRow(["Item Code", "Name", "Category", "Price", "Available", "Rating"]))
     layout.set_rows(data)
     layout.print()
 

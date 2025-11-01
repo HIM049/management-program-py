@@ -4,7 +4,7 @@ from services.table import TableLayout, TableRow
 import storage.storage as storage
 
 
-def show_products_list_with_condition(sort: bool, category: Categories | None):
+def show_products_list_with_condition(sort: bool, by_rating: bool, category: Categories | None):
     product_list = storage.STORAGE.products.read_list()
 
     # condition filter
@@ -12,12 +12,14 @@ def show_products_list_with_condition(sort: bool, category: Categories | None):
         product_list = get_products_with_category_fileer(product_list, category)
     if sort:
         product_list = get_products_list_with_price_sort(product_list)
+    if by_rating:
+        product_list = get_product_list_with_rating_sort(product_list)
 
     # build and ptint table
 
-    layout = TableLayout(5)
+    layout = TableLayout(6)
     layout.set_title(f"Products ({category.name if category != None else "All"})")
-    layout.set_header(TableRow(["Item Code", "Name", "Category", "Price", "Available"]))
+    layout.set_header(TableRow(["Item Code", "Name", "Category", "Price", "Available", "Rating"]))
     for item in product_list:
         layout.append_row(TableRow(item.to_list()))
     layout.print()
@@ -33,3 +35,10 @@ def get_products_with_category_fileer(products: list[Product] , category: Catego
 # retuen sorted products
 def get_products_list_with_price_sort(products: list[Product]) -> list[Product]:
     return sorted(products, key=lambda x: x.price)
+
+def get_product_list_with_rating_sort(products: list[Product]) -> list[Product]:
+    return sorted(
+        products, 
+        key=lambda x: x.rating[0] if x.rating is not None else float("-inf"),
+        reverse=True
+    )
