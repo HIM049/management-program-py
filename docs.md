@@ -1,5 +1,12 @@
 # Project Documentation
 
+## Intro (read first)
+I classified these describe by the effect what these functions do. For this project basically there are only "file storage" and "user interface" is main feature. And many functions in program are just the process for finish jobs between two of them.
+
+Also I write some utility functions, like table Object used to format and build tables, input module contain input functions to get input from user with specific format.
+
+I think that's good to introduce the main feature of our program. If any details need pls message me.
+
 ### 1. Storage
 
 The storage functionality is responsible for data persistence. It is designed in an object-oriented way to handle different types of data.
@@ -31,8 +38,7 @@ This functionality is responsible for the user interaction with the application 
     - **`menus.menu_inventory`**: The inventory management menu.
     - **`menus.menu_sales`**: The sales management menu.
 
-- **`services.input_module`**: This module provides functions for getting various types of input from the user, with validation and error handling.
-
 ### Others
+- **`services.input_module`**: This module provides functions for getting various types of input from the user, with validation and error handling.
 - **`services.table`**: This module provides classes for creating and displaying formatted tables in the console.
 - **`utils`**: This module contains utility functions, such as clearing the console and generating random IDs.
