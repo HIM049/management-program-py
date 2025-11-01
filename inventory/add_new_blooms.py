@@ -1,4 +1,7 @@
+from typing import cast
+import messages
 from models.products import Categories, Product
+from services.input_module import input_option
 import storage.storage as storage
 import utils
 
@@ -13,7 +16,7 @@ def add_new_blooms():
     category = get_category()
 
     # create a new item
-    storage.STORAGE.products.create(Product(code, name, category, price, None, True))
+    storage.STORAGE.products.create(Product(code, name, cast(Categories, category), price, None, True))
 
 def get_product_code() -> str:
     while True:
@@ -33,26 +36,25 @@ def get_product_code() -> str:
             continue
         return code
 
-def get_category() -> Categories:
+def get_category() -> Categories | None:
+    print("")
     print("---- Select a catrgory ----")
-    print("1. Romantic")
-    print("2. Birthday")
-    print("3. GrandOpening")
-    print("4. Condolence")
-    print("5. Anniversary")
-    print("You can enter the number/initial/full-name")
     
-    while True:
-        match input("Enter product category: ").upper():
-            case "Romantic" | "R" | "1":
-                return Categories.Romantic
-            case "Birthday" | "B" | "2":
-                return Categories.Birthday
-            case "GrandOpening" | "G" | "3":
-                return Categories.GrandOpening
-            case "Condolence" | "C" | "4":
-                return Categories.Condolence
-            case "Anniversary" | "A" | "5":
-                return Categories.Anniversary
-            case _:
-                print("unknow category, please try again")
+    option = input_option(
+        [
+            "Romantic",
+            "Birthday",
+            "GrandOpening",
+            "Condolence",
+            "Anniversary",
+        ],
+        messages.ENTER_OPTION_PROMPT,
+        False,
+        True,
+        False,
+        None
+    )
+    if option == None:
+        return None
+
+    return Categories(option+1)
