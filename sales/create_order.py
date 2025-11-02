@@ -91,9 +91,12 @@ def order_item():
         details = OrderDetails(product, addon, customer_name, recipient_name, message, delivery)
 
         utils.clear_console()
-        print("----------  Order Summary  ---------")
-        details.get_summary_table().print()
-        print("------------------------------------")
+
+        table = details.get_summary_table()
+        table.set_title("Order Summary")
+        table.set_end_divider(True)
+        table.print()
+
         result = input_option(
             ["Confirm", "Edit info"], 
             "Confirm the details: ",

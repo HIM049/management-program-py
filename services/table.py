@@ -35,6 +35,9 @@ class TableLayout:
 
     def set_title(self, title: str):
         self._title = title
+
+    def get_lines(self) -> int:
+        return self._lines
             
     def print(self):
         table: list[TableRow] = []
@@ -45,17 +48,39 @@ class TableLayout:
         print_table(self._lines, table, self._title, self._header != None)
 
 class Table:
-    content: list[TableLayout]
+    _content: list[TableLayout]
+    _title: str
+    _end_divider: bool
 
     def __init__(self):
-        self.content = []
+        self._content = []
+        self._title = ""
+        self._end_divider = False
 
     def append_layout(self, layout: TableLayout):
-        self.content.append(layout)
+        self._content.append(layout)
+
+    def set_title(self, title: str):
+        self._title = title
+
+    def set_end_divider(self, need_divider: bool):
+        self._end_divider = need_divider
+
+    def get_max_lines(self) -> int:
+        max_lines: int = 0
+        for item in self._content:
+            max_lines = max(max_lines, item.get_lines())
+        return max_lines
 
     def print(self):
-        for layout in self.content:
+        max_lines = self.get_max_lines()
+        if len(self._title) > 0:
+            divider_length = (max_lines * 18 - len(self._title) - 2) // 2
+            print("-" * divider_length, self._title, "-" * divider_length)
+        for layout in self._content:
             layout.print()
+        if self._end_divider:
+            print("-" * max_lines * 18)
 
 def print_table(lines: int, data: list[TableRow], title: str, divider: bool):
     if len(title) > 0:
