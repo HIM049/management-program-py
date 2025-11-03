@@ -8,7 +8,7 @@ import utils
 def get_menu_option_inventory() -> str: 
     utils.clear_console()
     print("---- Inventory Management ----")
-    print("a. View /Update blooms")
+    print("a. View / Update blooms")
     print("b. Add new blooms")
     print("c. View / Update add-ons")
     print("d. new add-on")
