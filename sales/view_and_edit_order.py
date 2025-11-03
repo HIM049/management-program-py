@@ -13,7 +13,7 @@ def view_and_edit_order():
         utils.clear_console()
 
         layout = TableLayout(3)
-        layout.set_title("Orders")
+        layout.set_title(f"Orders ({filter.name})")
         layout.set_header(TableRow(["Order number", "Product", "Status"]))
         for item in storage.STORAGE.orders.read_list_with_filter(filter):
             layout.append_row(TableRow(item.to_list()))

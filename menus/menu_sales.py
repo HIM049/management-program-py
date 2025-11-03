@@ -33,6 +33,7 @@ def sales_menu() :
                 print("unknow option, please try again")
 
 def append_rating():
+    utils.clear_console()
     while True:
         code = input("Enter the order code: ").upper()
         order = storage.STORAGE.orders.get_item(code)
