@@ -24,7 +24,7 @@ def create_new_order():
         print("4. Order item")
         print("5. Go back")
 
-        match input(messages.ENTER_OPTION_PROMPT):
+        match input(messages.PROMPT_ENTER_OPTION):
             case "1":
                 category = get_category()
             case "2":
@@ -43,10 +43,17 @@ def create_new_order():
                 continue
 
 def order_item():
-    # get product
-    id = input_product("Please enter item code: ", True, None)
-    index = storage.STORAGE.products.get_cache(cast(str, id))
-    product = storage.STORAGE.products.read(cast(int, index))
+    while True:
+        # get product
+        id = input_product(messages.PROMPT_ENTER_CODE, True, None)
+        product = storage.STORAGE.products.get_item(cast(str, id))
+        if product == None:
+            print(messages.ERROR_ITEM_NOTFOUND)
+            continue
+        if not product.is_available:
+            print(messages.ERROR_ITEM_UNAVILABLE)
+            continue
+        break
     
     # list of addons
     addon: Addon | None = None
@@ -56,11 +63,14 @@ def order_item():
         id = input("Enter item code for addon, or 0 to skip: ").upper()
         if id != "0":
             # not skip
-            index = storage.STORAGE.addons.get_cache(id)
-            if index == None:
-                print("addon id not found")
+            add = storage.STORAGE.addons.get_item(id)
+            if add == None:
+                print(messages.ERROR_ITEM_NOTFOUND)
                 continue
-            addon = storage.STORAGE.addons.read(index)
+            if not add.is_available:
+                print(messages.ERROR_ITEM_UNAVILABLE)
+                continue
+            addon = add
         break
 
     while True:
@@ -132,7 +142,7 @@ def get_category() -> Categories | None:
             "Condolence",
             "Anniversary",
         ],
-        messages.ENTER_OPTION_PROMPT,
+        messages.PROMPT_ENTER_OPTION,
         False,
         True,
         False,

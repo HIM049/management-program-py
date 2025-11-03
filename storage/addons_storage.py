@@ -60,3 +60,15 @@ class AddonsStorage(BaseStrage):
     # try to get cache data
     def get_cache(self, id: str) -> int | None:
         return self._cache.get(id)
+    
+    def get_item(self, id: str) -> Addon | None:
+        result = self.get_cache(id)
+        if result == None:
+            return None
+        return self.read(result)
+    
+    def update_by_id(self, id: str, new_item: Addon):
+        index = self.get_cache(id)
+        if index == None:
+            raise ValueError("item not found")
+        self.update(index, new_item)

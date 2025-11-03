@@ -14,7 +14,7 @@ def get_menu_option_inventory() -> str:
     print("d. new add-on")
     print("e. Back to main menu")
 
-    return input(messages.ENTER_OPTION_PROMPT).upper()
+    return input(messages.PROMPT_ENTER_OPTION).upper()
 
 def inventory_menu() : 
     while True:

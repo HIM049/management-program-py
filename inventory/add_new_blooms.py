@@ -48,7 +48,7 @@ def get_category() -> Categories | None:
             "Condolence",
             "Anniversary",
         ],
-        messages.ENTER_OPTION_PROMPT,
+        messages.PROMPT_ENTER_OPTION,
         False,
         True,
         False,

@@ -25,7 +25,7 @@ def view_and_edit_order():
                 "Edit/Cancel order", 
                 "Filter order by status"
             ],
-            messages.ENTER_OPTION_PROMPT,
+            messages.PROMPT_ENTER_OPTION,
             False,
             False,
             False,
@@ -56,7 +56,7 @@ def set_order():
             case OrderStatus.Open:
                 result = input_option(
                     ["Cancel order", "Change to Preparing"],
-                    messages.ENTER_OPTION_PROMPT,
+                    messages.PROMPT_ENTER_OPTION,
                     False,
                     True,
                     False,
@@ -74,7 +74,7 @@ def set_order():
             case OrderStatus.Cancelled:
                 result = input_option(
                     ["Set back to Open"],
-                    messages.ENTER_OPTION_PROMPT,
+                    messages.PROMPT_ENTER_OPTION,
                     False,
                     True,
                     False,
@@ -89,7 +89,7 @@ def set_order():
             case OrderStatus.Preparing:
                 result = input_option(
                     ["Change to Ready"],
-                    messages.ENTER_OPTION_PROMPT,
+                    messages.PROMPT_ENTER_OPTION,
                     False,
                     True,
                     False,
@@ -104,7 +104,7 @@ def set_order():
             case OrderStatus.Ready:
                 result = input_option(
                     ["Change to Preparing", "Change to Closed"],
-                    messages.ENTER_OPTION_PROMPT,
+                    messages.PROMPT_ENTER_OPTION,
                     False,
                     True,
                     False,
@@ -135,7 +135,7 @@ def set_filter() -> OrderStatus:
             "Ready",
             "Closed",
         ],
-        messages.ENTER_OPTION_PROMPT,
+        messages.PROMPT_ENTER_OPTION,
         False,
         True,
         False,
