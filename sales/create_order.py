@@ -34,15 +34,15 @@ def create_new_order():
                 sort = False
                 sort_rating = not sort_rating
             case "4":
-                utils.clear_console()
-                show_products_list_with_condition(sort, sort_rating, category)
-                order_item()
+                order_item(sort, sort_rating, category)
             case "5":
                 break
             case _:
                 continue
 
-def order_item():
+def order_item(sort: bool, sort_rating: bool, category: Categories | None):
+    utils.clear_console()
+    show_products_list_with_condition(sort, sort_rating, category)
     while True:
         # get product
         id = input_product(messages.PROMPT_ENTER_CODE, True, None)
@@ -61,16 +61,17 @@ def order_item():
     while True:
         # ask for addon code and check it
         id = input("Enter item code for addon, or 0 to skip: ").upper()
-        if id != "0":
-            # not skip
-            add = storage.STORAGE.addons.get_item(id)
-            if add == None:
-                print(messages.ERROR_ITEM_NOTFOUND)
-                continue
-            if not add.is_available:
-                print(messages.ERROR_ITEM_UNAVILABLE)
-                continue
-            addon = add
+        if id == "0":
+            # skip this
+            break
+        add = storage.STORAGE.addons.get_item(id)
+        if add == None:
+            print(messages.ERROR_ITEM_NOTFOUND)
+            continue
+        if not add.is_available:
+            print(messages.ERROR_ITEM_UNAVILABLE)
+            continue
+        addon = add
         break
 
     while True:
