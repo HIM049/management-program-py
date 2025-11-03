@@ -18,9 +18,9 @@ def create_new_order():
     while True:
         utils.clear_console()
         show_products_list_with_condition(sort, sort_rating, category)
-        print("1. Filter products by category" if category == None else "Back to filter category")
-        print("2. Sort products by price" if not sort else "Do not sort products by price")
-        print("3. Sort products by rating" if not sort_rating else "Do not sort products by rating")
+        print("1. Filter products by category" if category == None else "1. Back to filter category")
+        print("2. Sort products by price" if not sort else "2. Do not sort products by price")
+        print("3. Sort products by rating" if not sort_rating else "3. Do not sort products by rating")
         print("4. Order item")
         print("5. Go back")
 
