@@ -60,7 +60,7 @@ def set_order():
                     False,
                     True,
                     False,
-                    ("0", "Cacnel")
+                    ("0", "Cancel")
                 )
                 if result == None:
                     return
@@ -78,7 +78,7 @@ def set_order():
                     False,
                     True,
                     False,
-                    ("0", "Cacnel")
+                    ("0", "Cancel")
                 )
                 if result == None:
                     return
@@ -93,7 +93,7 @@ def set_order():
                     False,
                     True,
                     False,
-                    ("0", "Cacnel")
+                    ("0", "Cancel")
                 )
                 if result == None:
                     return
@@ -108,7 +108,7 @@ def set_order():
                     False,
                     True,
                     False,
-                    ("0", "Cacnel")
+                    ("0", "Cancel")
                 )
                 if result == None:
                     return
