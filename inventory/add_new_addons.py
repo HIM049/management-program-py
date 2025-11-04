@@ -1,4 +1,5 @@
 # create new product
+import messages
 from models.addon import Addon
 import storage.storage as storage
 import utils
@@ -29,6 +30,6 @@ def get_addon_code() -> str:
         # check collision
         if storage.STORAGE.addons.get_cache(code) != None:
             # code already used
-            print("the code is already been used, please try another one")
+            print(messages.ERROR_CODE_COLLISION)
             continue
         return code

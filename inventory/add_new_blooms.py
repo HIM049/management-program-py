@@ -32,7 +32,7 @@ def get_product_code() -> str:
         # check collision
         if storage.STORAGE.products.get_cache(code) != None:
             # code already used
-            print("the code is already been used, please try another one")
+            print(messages.ERROR_CODE_COLLISION)
             continue
         return code
 

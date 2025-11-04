@@ -18,7 +18,7 @@ def view_and_update_blooms():
     product = storage.STORAGE.products.get_item(id)
     if product == None:
         # item not found
-        print(messages.CANNOT_FIND_ITEM)
+        print(messages.ERROR_ITEM_NOTFOUND)
         utils.wait_to_continue()
         return
     ask_update_item(product)

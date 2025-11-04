@@ -1,5 +1,6 @@
 
 import time
+import messages
 from models.addon import Addon
 from services.table import TableLayout, TableRow
 import storage.storage as storage
@@ -19,7 +20,7 @@ def view_and_update_addons():
     item_index = storage.STORAGE.addons.get_cache(id)
     if item_index == None:
         # item not found
-        print("product id not found")
+        print(messages.ERROR_ITEM_NOTFOUND)
         time.sleep(2)
         return
     ask_update_item(item_index, storage.STORAGE.addons.read(item_index))

@@ -38,7 +38,7 @@ def append_rating():
         code = input("Enter the order code: ").upper()
         order = storage.STORAGE.orders.get_item(code)
         if order == None:
-            print(messages.CANNOT_FIND_ITEM)
+            print(messages.ERROR_ITEM_NOTFOUND_RETRY)
             continue
         break
 

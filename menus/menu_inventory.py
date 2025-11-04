@@ -32,4 +32,4 @@ def inventory_menu() :
                 break
             case _:
                 # unknow
-                print("unknow option, please try again")
+                print(messages.ERROR_INPUT_UNKNOW)

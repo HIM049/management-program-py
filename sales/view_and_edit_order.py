@@ -49,7 +49,7 @@ def set_order():
             return
         order = storage.STORAGE.orders.get_item(result)
         if order == None:
-            print(messages.CANNOT_FIND_ITEM)
+            print(messages.ERROR_ITEM_NOTFOUND_RETRY)
             continue
 
         match order.status:
@@ -120,7 +120,7 @@ def set_order():
                     update_order(order, OrderStatus.Closed)
 
             case OrderStatus.Closed:
-                print("this order already closed")
+                print("This order already closed")
                 utils.wait_to_continue()
         break
 
