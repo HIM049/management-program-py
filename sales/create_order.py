@@ -115,7 +115,7 @@ def order_item(sort: bool, sort_rating: bool, category: Categories | None):
             repeat=True,
             is_leader_chr=False,
             clear=False,
-            cancel=("0", "Cacnel")
+            cancel=("0", "Cancel")
         )
         if result == 0:
             # confirm
